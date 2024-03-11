@@ -1,13 +1,13 @@
 import torch
 
-import commons
-import utils
-from models import SynthesizerTrn
-from models_jp_extra import SynthesizerTrn as SynthesizerTrnJPExtra
-from text import cleaned_text_to_sequence, get_bert
-from text.cleaner import clean_text
-from text.symbols import symbols
-from common.log import logger
+import style_bert_vits2.commons as commons
+import style_bert_vits2.utils as utils
+from .models import SynthesizerTrn
+from .models_jp_extra import SynthesizerTrn as SynthesizerTrnJPExtra
+from .text import cleaned_text_to_sequence, get_bert
+from .text.cleaner import clean_text
+from .text.symbols import symbols
+from .common.log import logger
 
 
 class InvalidToneError(ValueError):

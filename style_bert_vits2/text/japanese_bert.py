@@ -3,8 +3,8 @@ import sys
 import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 
-from config import config
-from text.japanese import text2sep_kata, text_normalize
+from ..config import config
+from ..text.japanese import text2sep_kata, text_normalize
 
 LOCAL_PATH = "./bert/deberta-v2-large-japanese-char-wwm"
 

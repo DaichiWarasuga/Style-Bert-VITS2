@@ -1,6 +1,7 @@
 # Convert Japanese text to phonemes which is
 # compatible with Julius https://github.com/julius-speech/segmentation-kit
 import re
+import os
 import unicodedata
 from pathlib import Path
 
@@ -8,14 +9,14 @@ import pyopenjtalk
 from num2words import num2words
 from transformers import AutoTokenizer
 
-from common.log import logger
-from text import punctuation
-from text.japanese_mora_list import (
+from ..common.log import logger
+from ..text import punctuation
+from ..text.japanese_mora_list import (
     mora_kata_to_mora_phonemes,
     mora_phonemes_to_mora_kata,
 )
 
-from text.user_dict import update_dict
+from ..text.user_dict import update_dict
 
 # 最初にpyopenjtalkの辞書を更新
 update_dict()
@@ -554,8 +555,11 @@ def handle_long(sep_phonemes: list[list[str]]) -> list[list[str]]:
     return sep_phonemes
 
 
-tokenizer = AutoTokenizer.from_pretrained("./bert/deberta-v2-large-japanese-char-wwm")
-
+tokenizer = AutoTokenizer.from_pretrained(os.path.join(os.path.dirname(
+    os.path.dirname(__file__)), "bert/deberta-v2-large-japanese-char-wwm"))
+# tokenizer = AutoTokenizer.from_pretrained("./bert/deberta-v2-large-japanese-char-wwm")
+# 引数としてbertのpathを指定する必要あるかも？
+# これって実行した階層から見た相対パスってことかな？
 
 def align_tones(
     phones_with_punct: list[str], phone_tone_list: list[tuple[str, int]]

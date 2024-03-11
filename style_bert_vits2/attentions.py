@@ -3,8 +3,8 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-import commons
-from common.log import logger as logging
+import style_bert_vits2.commons as commons
+from .common.log import logger as logging
 
 
 class LayerNorm(nn.Module):

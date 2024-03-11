@@ -9,7 +9,7 @@ from typing import Dict, List
 import torch
 import yaml
 
-from common.log import logger
+from .common.log import logger
 
 # If not cuda available, set possible devices to cpu
 cuda_available = torch.cuda.is_available()
@@ -276,7 +276,7 @@ class Config:
             # )
 
 
-with open(os.path.join("configs", "paths.yml"), "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "configs", "paths.yml"), "r", encoding="utf-8") as f:
     path_config: dict[str, str] = yaml.safe_load(f.read())
     # Should contain the following keys:
     # - dataset_root: the root directory of the dataset, default to "Data"
@@ -284,7 +284,7 @@ with open(os.path.join("configs", "paths.yml"), "r", encoding="utf-8") as f:
 
 
 try:
-    config = Config("config.yml", path_config)
+    config = Config(os.path.join(os.path.dirname(__file__), "config.yml"), path_config)
 except (TypeError, KeyError):
     logger.warning("Old config.yml found. Replace it with default_config.yml.")
     shutil.copy(src="default_config.yml", dst="config.yml")
