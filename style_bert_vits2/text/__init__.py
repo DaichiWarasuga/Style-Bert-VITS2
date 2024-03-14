@@ -18,7 +18,7 @@ def cleaned_text_to_sequence(cleaned_text, tones, language):
     return phones, tones, lang_ids
 
 
-def get_bert(text, word2ph, language, device, assist_text=None, assist_text_weight=0.7):
+def get_bert(text, word2ph, language, device, use_debert_model_path_str, assist_text=None, assist_text_weight=0.7):
     if language == "ZH":
         from .chinese_bert import get_bert_feature
     elif language == "EN":
@@ -28,4 +28,4 @@ def get_bert(text, word2ph, language, device, assist_text=None, assist_text_weig
     else:
         raise ValueError(f"Language {language} not supported")
 
-    return get_bert_feature(text, word2ph, device, assist_text, assist_text_weight)
+    return get_bert_feature(text, word2ph, use_debert_model_path_str, device, assist_text, assist_text_weight)

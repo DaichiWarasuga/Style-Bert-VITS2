@@ -177,7 +177,7 @@ def japanese_convert_numbers_to_words(text: str) -> str:
 
 
 def g2p(
-    norm_text: str, use_jp_extra: bool = True, raise_yomi_error: bool = False
+    norm_text: str, use_debert_model_path_str: str, use_jp_extra: bool = True, raise_yomi_error: bool = False
 ) -> tuple[list[str], list[int], list[int]]:
     """
     他で使われるメインの関数。`text_normalize()`で正規化された`norm_text`を受け取り、
@@ -191,6 +191,10 @@ def g2p(
     raise_yomi_error: Trueの場合、読めない文字があるときに例外を発生させる。
     Falseの場合は読めない文字が消えたような扱いとして処理される。
     """
+
+    # tokenizerをロード
+    tokenizer = AutoTokenizer.from_pretrained(use_debert_model_path_str)
+
     # pyopenjtalkのフルコンテキストラベルを使ってアクセントを取り出すと、punctuationの位置が消えてしまい情報が失われてしまう：
     # 「こんにちは、世界。」と「こんにちは！世界。」と「こんにちは！！！？？？世界……。」は全て同じになる。
     # よって、まずpunctuation無しの音素とアクセントのリストを作り、
@@ -554,12 +558,11 @@ def handle_long(sep_phonemes: list[list[str]]) -> list[list[str]]:
                     sep_phonemes[i][j] = sep_phonemes[i][j - 1][-1]
     return sep_phonemes
 
-
-tokenizer = AutoTokenizer.from_pretrained(os.path.join(os.path.dirname(
-    os.path.dirname(__file__)), "bert/deberta-v2-large-japanese-char-wwm"))
+# 226行目で使われているらしい
+# g2p関数内に移植
+# tokenizer = AutoTokenizer.from_pretrained(os.path.join(os.path.dirname(
+#     os.path.dirname(__file__)), "bert/deberta-v2-large-japanese-char-wwm"))
 # tokenizer = AutoTokenizer.from_pretrained("./bert/deberta-v2-large-japanese-char-wwm")
-# 引数としてbertのpathを指定する必要あるかも？
-# これって実行した階層から見た相対パスってことかな？
 
 def align_tones(
     phones_with_punct: list[str], phone_tone_list: list[tuple[str, int]]

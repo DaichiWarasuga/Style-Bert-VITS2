@@ -49,14 +49,15 @@ def get_text(
     language_str,
     hps,
     device,
+    use_debert_model_path_str,
     assist_text=None,
     assist_text_weight=0.7,
     given_tone=None,
 ):
     use_jp_extra = hps.version.endswith("JP-Extra")
     # 推論のときにのみ呼び出されるので、raise_yomi_errorはFalseに設定
-    norm_text, phone, tone, word2ph = clean_text(
-        text, language_str, use_jp_extra, raise_yomi_error=False
+    norm_text, phone, tone, word2ph = clean_text( # ここでg2p関数を使っている
+        text, language_str, use_debert_model_path_str, use_jp_extra, raise_yomi_error=False
     )
     if given_tone is not None:
         if len(given_tone) != len(phone):
@@ -78,8 +79,10 @@ def get_text(
         word2ph,
         language_str,
         device,
+        use_debert_model_path_str,
         assist_text,
         assist_text_weight,
+        # use_debert_model_path_str
     )
     del word2ph
     assert bert_ori.shape[-1] == len(phone), phone
@@ -121,6 +124,7 @@ def infer(
     hps,
     net_g,
     device,
+    use_debert_model_path_str,
     skip_start=False,
     skip_end=False,
     assist_text=None,
@@ -136,6 +140,7 @@ def infer(
         assist_text=assist_text,
         assist_text_weight=assist_text_weight,
         given_tone=given_tone,
+        use_debert_model_path_str=use_debert_model_path_str,
     )
     if skip_start:
         phones = phones[3:]

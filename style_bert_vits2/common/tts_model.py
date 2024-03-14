@@ -64,11 +64,12 @@ def adjust_voice(fs, wave, pitch_scale, intonation_scale):
 
 class Model:
     def __init__(
-        self, model_path: Path, config_path: Path, style_vec_path: Path, device: str
+        self, model_path: Path, config_path: Path, style_vec_path: Path, use_debert_model_path_str: str, device: str
     ):
         self.model_path: Path = model_path
         self.config_path: Path = config_path
         self.style_vec_path: Path = style_vec_path
+        self.use_debert_model_path_str: str = use_debert_model_path_str
         self.device: str = device
         self.hps: utils.HParams = utils.get_hparams_from_file(self.config_path)
         self.spk2id: dict[str, int] = self.hps.data.spk2id
@@ -121,7 +122,7 @@ class Model:
         text: str,
         language: str = "JP",
         sid: int = 0,
-        reference_audio_path: Optional[str] = None,
+        reference_audio_path: Optional[str] = None, # 音声ファイルでスタイル付けを行う
         sdp_ratio: float = DEFAULT_SDP_RATIO,
         noise: float = DEFAULT_NOISE,
         noisew: float = DEFAULT_NOISEW,
@@ -169,6 +170,7 @@ class Model:
                     hps=self.hps,
                     net_g=self.net_g,
                     device=self.device,
+                    use_debert_model_path_str=self.use_debert_model_path_str,
                     assist_text=assist_text,
                     assist_text_weight=assist_text_weight,
                     style_vec=style_vector,
@@ -192,6 +194,7 @@ class Model:
                             hps=self.hps,
                             net_g=self.net_g,
                             device=self.device,
+                            use_debert_model_path_str=self.use_debert_model_path_str,
                             assist_text=assist_text,
                             assist_text_weight=assist_text_weight,
                             style_vec=style_vector,

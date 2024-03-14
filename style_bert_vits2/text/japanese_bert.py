@@ -6,9 +6,9 @@ from transformers import AutoModelForMaskedLM, AutoTokenizer
 from ..config import config
 from ..text.japanese import text2sep_kata, text_normalize
 
-LOCAL_PATH = "./bert/deberta-v2-large-japanese-char-wwm"
+# LOCAL_PATH = "./bert/deberta-v2-large-japanese-char-wwm"
 
-tokenizer = AutoTokenizer.from_pretrained(LOCAL_PATH)
+# tokenizer = AutoTokenizer.from_pretrained(LOCAL_PATH)
 
 models = dict()
 
@@ -16,10 +16,12 @@ models = dict()
 def get_bert_feature(
     text,
     word2ph,
+    use_debert_model_path_str,
     device=config.bert_gen_config.device,
     assist_text=None,
     assist_text_weight=0.7,
 ):
+    LOCAL_PATH = use_debert_model_path_str
     # 各単語が何文字かを作る`word2ph`を使う必要があるので、読めない文字は必ず無視する
     # でないと`word2ph`の結果とテキストの文字数結果が整合性が取れない
     text = "".join(text2sep_kata(text, raise_yomi_error=False)[0])
@@ -38,6 +40,7 @@ def get_bert_feature(
         device = "cpu"
     if device not in models.keys():
         models[device] = AutoModelForMaskedLM.from_pretrained(LOCAL_PATH).to(device)
+    tokenizer = AutoTokenizer.from_pretrained(LOCAL_PATH)
     with torch.no_grad():
         inputs = tokenizer(text, return_tensors="pt")
         for i in inputs:
