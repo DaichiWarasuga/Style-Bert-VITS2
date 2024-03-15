@@ -4,8 +4,8 @@ __pycache__/
 venv/
 .ipynb_checkpoints/
 
-/*.yml
-!/default_config.yml
+# /*.yml
+# !/default_config.yml
 /bert/*/*.bin
 /bert/*/*.h5
 /bert/*/*.model
