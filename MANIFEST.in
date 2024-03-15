@@ -1,2 +1,2 @@
-include style-bert-vits2/configs/*.json
-include style-bert-vits2/configs/*.yml
+include style_bert_vits2/configs/*.json
+include style_bert_vits2/configs/*.yml
