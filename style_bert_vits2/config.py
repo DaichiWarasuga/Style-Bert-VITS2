@@ -276,10 +276,10 @@ class Config:
             # )
 
 
-# with open(os.path.join(os.path.dirname(__file__), "configs", "paths.yml"), "r", encoding="utf-8") as f:
-#     path_config: dict[str, str] = yaml.safe_load(f.read())
-with open(os.path.join("configs", "paths.yml"), "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "configs", "paths.yml"), "r", encoding="utf-8") as f:
     path_config: dict[str, str] = yaml.safe_load(f.read())
+# with open(os.path.join("configs", "paths.yml"), "r", encoding="utf-8") as f:
+#     path_config: dict[str, str] = yaml.safe_load(f.read())
     # Should contain the following keys:
     # - dataset_root: the root directory of the dataset, default to "Data"
     # - assets_root: the root directory of the assets, default to "model_assets"
