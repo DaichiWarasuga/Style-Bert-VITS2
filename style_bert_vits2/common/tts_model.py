@@ -205,7 +205,7 @@ class Model:
                 try:
                     audio = np.concatenate(audios)
                 except ValueError:
-                    audio = np.zeros(0)
+                    audio = np.ones(10)
         logger.info("Audio data generated successfully")
         if not (pitch_scale == 1.0 and intonation_scale == 1.0):
             _, audio = adjust_voice(
