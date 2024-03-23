@@ -202,7 +202,10 @@ class Model:
                     )
                     if i != len(texts) - 1:
                         audios.append(np.zeros(int(44100 * split_interval)))
-                audio = np.concatenate(audios)
+                try:
+                    audio = np.concatenate(audios)
+                except ValueError:
+                    audio = np.zeros(0)
         logger.info("Audio data generated successfully")
         if not (pitch_scale == 1.0 and intonation_scale == 1.0):
             _, audio = adjust_voice(
